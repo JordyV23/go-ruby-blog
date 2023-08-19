@@ -21,8 +21,25 @@ class BlogPostsController < ApplicationController
         @blog_post = BlogPost.new
     end
 
-    #Funcion para 
+    #Funcion para crear un nuevo post en la base de datos
     def create
+        #Crea el post
+        @blog_post = BlogPost.new(blog_post_params)
 
+        #Si el guardado es exitoso entonces redirecciona a la pagina de los posts
+        if @blog_post.save
+            redirect_to @blog_post
+        else
+        #Si no es exitoso entonces renderiza el formulario de nuevo
+            render :new, status: :unprocessable_entity
+        end
+    end
+
+    #Funcion que valida los parametros que se reciben del formulario
+    private 
+    def blog_post_params
+        #Valida y permite unicamente los parametros title y body
+        #Esto en caso de que alguien quiera inyectar codigo malicioso
+        params.require(:blog_post).permit(:title, :body)
     end
 end
