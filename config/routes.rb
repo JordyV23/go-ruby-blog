@@ -23,10 +23,16 @@ Rails.application.routes.draw do
   patch "/blog_posts/:id", to: "blog_posts#update"
 
 
+  #Crea una ruta tipo patch que recibe un parametro llamado id
+  #Tiene el id para actualizar el post
+  delete "/blog_posts/:id", to: "blog_posts#destroy"
+
+
   #Crea una ruta tipo get que recibe un parametro llamado id
   #Obtiene el post con el id que se le pasa
   #Tiene el alias "blog_posts"
   get "/blog_posts/:id", to: "blog_posts#show", as: :blog_post
 
+  #Ruta raiz
   root "blog_posts#index"
 end

@@ -5,6 +5,7 @@ class BlogPostsController < ApplicationController
         #Esta variable de instancia, lo que la hace visible en toda esta clase
         @blog_posts = BlogPost.all
     end
+    
 
     #Funcion show que le asigna todos los valores a la variable @blog_post
     def show 
@@ -15,11 +16,13 @@ class BlogPostsController < ApplicationController
         redirect_to root_path
     end
 
+
     #Funcion renderiza el formulario para agregar un post nuevo
     def new 
         #Crea un nuevo blog en memoria pero no lo guarda en DB
         @blog_post = BlogPost.new
     end
+
 
     #Funcion para crear un nuevo post en la base de datos
     def create
@@ -35,11 +38,13 @@ class BlogPostsController < ApplicationController
         end
     end
 
+
     #Funcion para editar un post segun el id recibido por parametos
     def edit 
         #Asigna el valor del post a la variable @blog_post
         @blog_post = BlogPost.find(params[:id])
     end
+
 
     #Funcion para actualizar un post segun el id recibido por parametos
     def update
@@ -53,6 +58,17 @@ class BlogPostsController < ApplicationController
             render :edit, status: :unprocessable_entity
         end
     end
+
+
+    #Funcion para eliminar un post segun el id recibido por parametos
+    def destroy
+        @blog_post = BlogPost.find(params[:id])
+        #Ejecuta la accion de eliminado
+        @blog_post.destroy
+        #Redirecciona a la pagina principal
+        redirect_to root_path
+    end
+
 
     #Funcion que valida los parametros que se reciben del formulario
     private 
