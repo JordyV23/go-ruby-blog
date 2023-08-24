@@ -1,5 +1,12 @@
 class BlogPostsController < ApplicationController
 
+    #Define un metodo para ser llamado en solo algunas funciones
+    #En este caso solo se llama en edit, update, show y destroy
+    #Pero no en index, new y create
+    #before_action :set_blog_post, only: [:edit, :update, :show, :destory] #Esta es una manera
+    before_action :set_blog_post, except: [:index, :new, :create] #Esta es otra manera
+    #Nota: En este caso ambas maneras cumplen la misma funcion
+
     #Funcion index que le asigna todos los valores a la variable @blog_posts
     def index
         #Esta variable de instancia, lo que la hace visible en toda esta clase
@@ -8,12 +15,10 @@ class BlogPostsController < ApplicationController
     
 
     #Funcion show que le asigna todos los valores a la variable @blog_post
+    #Emplea el metodo set_blog_post para cargar el elemento con el id al momento de ingresar a esta rute
     def show 
-        #Busca en la base de datos un elemento con el parametro id de la URL 
-        @blog_post = BlogPost.find(params[:id])
     #Si no se encuentra el elemento en el arreglo entonces redirecciona a la pagina principal
-    rescue ActiveRecord::RecordNotFound
-        redirect_to root_path
+
     end
 
 
@@ -40,16 +45,14 @@ class BlogPostsController < ApplicationController
 
 
     #Funcion para editar un post segun el id recibido por parametos
+    #Emplea el metodo set_blog_post para cargar el elemento con el id al momento de ingresar a esta rute
     def edit 
-        #Asigna el valor del post a la variable @blog_post
-        @blog_post = BlogPost.find(params[:id])
     end
 
 
     #Funcion para actualizar un post segun el id recibido por parametos
     def update
-        @blog_post = BlogPost.find(params[:id])
-
+        #Emplea el metodo set_blog_post para cargar el elemento con el id al momento de ingresar a esta rute
         #Actualiza el blog, si es exitoso entonces redirecciona a la pagina del post
         if @blog_post.update(blog_post_params)
             redirect_to @blog_post
@@ -61,8 +64,8 @@ class BlogPostsController < ApplicationController
 
 
     #Funcion para eliminar un post segun el id recibido por parametos
+    #Emplea el metodo set_blog_post para cargar el elemento con el id al momento de ingresar a esta rute
     def destroy
-        @blog_post = BlogPost.find(params[:id])
         #Ejecuta la accion de eliminado
         @blog_post.destroy
         #Redirecciona a la pagina principal
@@ -76,5 +79,14 @@ class BlogPostsController < ApplicationController
         #Valida y permite unicamente los parametros title y body
         #Esto en caso de que alguien quiera inyectar codigo malicioso
         params.require(:blog_post).permit(:title, :body)
+    end
+
+    #Funcion que busca el post segun el id recibido por parametros
+    def set_blog_post
+        #Busca el post segun el id recibido por parametros
+        @blog_post = BlogPost.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+        #Si no lo encuentra entonces redirecciona a la pagina principal
+        redirect_to root_path
     end
 end
