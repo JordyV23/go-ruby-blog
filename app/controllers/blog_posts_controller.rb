@@ -35,6 +35,25 @@ class BlogPostsController < ApplicationController
         end
     end
 
+    #Funcion para editar un post segun el id recibido por parametos
+    def edit 
+        #Asigna el valor del post a la variable @blog_post
+        @blog_post = BlogPost.find(params[:id])
+    end
+
+    #Funcion para actualizar un post segun el id recibido por parametos
+    def update
+        @blog_post = BlogPost.find(params[:id])
+
+        #Actualiza el blog, si es exitoso entonces redirecciona a la pagina del post
+        if @blog_post.update(blog_post_params)
+            redirect_to @blog_post
+        else
+            #Si no es exitoso entonces renderiza el formulario de nuevo
+            render :edit, status: :unprocessable_entity
+        end
+    end
+
     #Funcion que valida los parametros que se reciben del formulario
     private 
     def blog_post_params
