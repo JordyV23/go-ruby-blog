@@ -1,5 +1,10 @@
 class BlogPostsController < ApplicationController
 
+
+    #Define un metodo para ser llamado en todas las funciones
+    #Valida que el usuario se haya logueado antes de ejecutar cualquier funcion
+    before_action :authenticate_user!, except: [:index, :show]
+
     #Define un metodo para ser llamado en solo algunas funciones
     #En este caso solo se llama en edit, update, show y destroy
     #Pero no en index, new y create
@@ -72,6 +77,7 @@ class BlogPostsController < ApplicationController
         redirect_to root_path
     end
 
+    private
 
     #Funcion que valida los parametros que se reciben del formulario
     private 

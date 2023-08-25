@@ -5,3 +5,18 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+require 'dotenv'
+Dotenv.load('.env')
+
+username = ENV['USUARIO']
+password = ENV['PASS']
+
+puts password
+
+user = User.where(email:"#{username}").first_or_initialize
+
+user.update!(
+    password: "#{password}",
+    password_confirmation: "#{password}",
+)
