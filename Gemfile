@@ -74,3 +74,7 @@ end
 gem "devise", "~> 4.9"
 
 gem "dotenv", "~> 2.8"
+
+gem "tailwindcss-rails", "~> 2.0"
+
+gem "foreman", "~> 0.87.2"
